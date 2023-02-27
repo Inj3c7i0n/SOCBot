@@ -1,3 +1,5 @@
+import datetime
+from discord import Embed
 from discord.ext import commands
 from discord.ext.commands import Context
 
@@ -13,7 +15,9 @@ class Moderation(commands.Cog, name="moderation"):
     @commands.has_permissions(manage_messages=True)
     async def purge(self, ctx: Context, amount: int):
         await ctx.channel.purge(limit=amount)
-        await ctx.send(f"{amount} messages were purged from the channel.", delete_after=5.0)
+        embed = Embed(timestamp=datetime.datetime.now())
+        embed.add_field(name="", value=f"{amount} messages were purged from #{ctx.channel.name}.")
+        await ctx.send(embed=embed)
 
 
 async def setup(bot):
